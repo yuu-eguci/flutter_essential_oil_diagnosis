@@ -66,7 +66,7 @@ class _QuestionsView extends StatelessWidget {
         read.setAnswerYes();
         final moreQuestion = read.incrementQuestionIndex();
         if (!moreQuestion) {
-          Navigator.of(context).pushNamed(ResultView.routeName);
+          Navigator.of(context).pushReplacementNamed(ResultView.routeName);
           return;
         }
       },
@@ -78,11 +78,19 @@ class _QuestionsView extends StatelessWidget {
         read.setAnswerNo();
         final moreQuestion = read.incrementQuestionIndex();
         if (!moreQuestion) {
-          Navigator.of(context).pushNamed(ResultView.routeName);
+          Navigator.of(context).pushReplacementNamed(ResultView.routeName);
           return;
         }
       },
     );
+    final skipButton = ElevatedButton(
+      child: const Text('アプリの動きを見たいだけだから49問てきとうに答えたことにしてよ'),
+      onPressed: () {
+        final read = context.read<QuestionsViewModel>();
+        read.setRandomAnswers();
+      },
+    );
+
     final buttonRow = Row(
       children: [
         Expanded(
@@ -105,6 +113,29 @@ class _QuestionsView extends StatelessWidget {
         ),
       ],
     );
+    final buttonRowSecond = Row(
+      children: [
+        Expanded(
+          child: SizedBox(
+            height: 100,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: skipButton,
+            ),
+          ),
+        ),
+      ],
+    );
+
+    // 状態によっては、 widgets の有無をスイッチしたい。
+    final children = <Widget>[
+      guideText,
+      questionTextCard,
+      buttonRow,
+    ];
+    if (!watch.isLastQuestion()) {
+      children.add(buttonRowSecond);
+    }
 
     return Scaffold(
       appBar: appBar,
@@ -112,11 +143,7 @@ class _QuestionsView extends StatelessWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
-            children: <Widget>[
-              guideText,
-              questionTextCard,
-              buttonRow,
-            ],
+            children: children,
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/screen/questions_view/questions_view.dart' show QuestionsView;
 import '/view_model/result_view/result_view_model.dart' show ResultViewModel;
 
 class ResultView extends StatelessWidget {
@@ -28,6 +29,14 @@ class _ResultView extends StatelessWidget {
   // NOTE: build は一度きり実行されるものではなく、何度も実行されるものであることを留意する。
   @override
   Widget build(BuildContext context) {
+    // 最初に戻るボタンです。
+    final backToStartButton = ElevatedButton(
+      child: const Text('Back to start'),
+      onPressed: () {
+        Navigator.of(context).popAndPushNamed(QuestionsView.routeName);
+      },
+    );
+
     return Scaffold(
       appBar: appBar,
       body: SafeArea(
@@ -35,6 +44,7 @@ class _ResultView extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: <Widget>[
+              backToStartButton,
             ],
           ),
         ),

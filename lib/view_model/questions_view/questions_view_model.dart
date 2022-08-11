@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Question {
@@ -104,12 +105,32 @@ class QuestionsViewModel extends ChangeNotifier {
   /// 次の質問へ進みます。次の質問があるなら true を返します。
   bool incrementQuestionIndex() {
     // 次の質問など存在しない。
-    if (currentQuestionIndex + 1 >= questions.length) {
+    if (isLastQuestion()) {
       return false;
     }
     currentQuestionIndex++;
     // Rebuild.
     notifyListeners();
     return true;
+  }
+
+  /// 最後の質問まで適当に進む。
+  void setRandomAnswers() {
+    // 48まで while して、 while block の最後で49にして終了。
+    while (currentQuestionIndex < questions.length - 1) {
+      // てきとうに回答します。
+      if (Random().nextBool()) {
+        setAnswerYes();
+      } else {
+        setAnswerNo();
+      }
+      currentQuestionIndex++;
+    }
+    // Rebuild.
+    notifyListeners();
+  }
+
+  bool isLastQuestion() {
+    return currentQuestionIndex + 1 >= questions.length;
   }
 }
