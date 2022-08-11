@@ -35,11 +35,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  # アイコンを変更するためのライブラリです。
+  flutter_launcher_icons: "^0.10.0"
+
+  # スプラッシュ画面を実装するためのライブラリです。
+  flutter_native_splash: ^2.2.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  # アイコンを変更するためのライブラリです。
-  flutter_launcher_icons: "^0.10.0"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -95,3 +99,9 @@ flutter_icons:
   ios: true
   remove_alpha_ios: true
   image_path: "lib/project_icon.png"
+
+# flutter_native_splash ライブラリのための設定です。
+flutter_native_splash:
+  color: "#ffffff"
+  image: "lib/splash.png"
+  fullscreen: true
