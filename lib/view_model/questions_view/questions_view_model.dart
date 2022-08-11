@@ -91,5 +91,25 @@ class QuestionsViewModel extends ChangeNotifier {
   /// 現在の質問番号。
   int currentQuestionIndex = 0;
 
+  /// 質問の回答を Yes にセットします。
+  void setAnswerYes() {
+    questions[currentQuestionIndex].answer = true;
+  }
 
+  /// 質問の回答を No にセットします。
+  void setAnswerNo() {
+    questions[currentQuestionIndex].answer = false;
+  }
+
+  /// 次の質問へ進みます。次の質問があるなら true を返します。
+  bool incrementQuestionIndex() {
+    // 次の質問など存在しない。
+    if (currentQuestionIndex + 1 >= questions.length) {
+      return false;
+    }
+    currentQuestionIndex++;
+    // Rebuild.
+    notifyListeners();
+    return true;
+  }
 }

@@ -26,7 +26,7 @@ class _QuestionsView extends StatelessWidget {
   final appBar = AppBar(title: const Text('みろりおいる'));
 
   // ユーザへの指示を表示する Text です。
-  final guideText = const Text('正直に回答していこう!');
+  final guideText = const Text('正直に回答していこう! 一度回答したら戻れないよ、適当に作ったからゴメンな!');
 
   // NOTE: build は一度きり実行されるものではなく、何度も実行されるものであることを留意する。
   @override
@@ -60,11 +60,29 @@ class _QuestionsView extends StatelessWidget {
     // 回答用のボタンです。
     final yesButton = ElevatedButton(
       child: const Text('Yes'),
-      onPressed: () {},
+      onPressed: () {
+        final read = context.read<QuestionsViewModel>();
+        read.setAnswerYes();
+        final moreQuestion = read.incrementQuestionIndex();
+        if (!moreQuestion) {
+          // Navigator.of(context).push();
+          print('current: ${read.currentQuestionIndex}');
+          return;
+        }
+      },
     );
     final noButton = ElevatedButton(
       child: const Text('No'),
-      onPressed: () {},
+      onPressed: () {
+        final read = context.read<QuestionsViewModel>();
+        read.setAnswerNo();
+        final moreQuestion = read.incrementQuestionIndex();
+        if (!moreQuestion) {
+          // Navigator.of(context).push();
+          print('current: ${read.currentQuestionIndex}');
+          return;
+        }
+      },
     );
     final buttonRow = Row(
       children: [
