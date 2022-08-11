@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/screen/result_view/result_view.dart' show ResultView;
 import '/view_model/questions_view/questions_view_model.dart' show QuestionsViewModel;
 
 class QuestionsView extends StatelessWidget {
@@ -65,8 +66,7 @@ class _QuestionsView extends StatelessWidget {
         read.setAnswerYes();
         final moreQuestion = read.incrementQuestionIndex();
         if (!moreQuestion) {
-          // Navigator.of(context).push();
-          print('current: ${read.currentQuestionIndex}');
+          Navigator.of(context).pushNamed(ResultView.routeName);
           return;
         }
       },
@@ -78,8 +78,7 @@ class _QuestionsView extends StatelessWidget {
         read.setAnswerNo();
         final moreQuestion = read.incrementQuestionIndex();
         if (!moreQuestion) {
-          // Navigator.of(context).push();
-          print('current: ${read.currentQuestionIndex}');
+          Navigator.of(context).pushNamed(ResultView.routeName);
           return;
         }
       },
