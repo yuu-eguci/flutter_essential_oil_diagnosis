@@ -66,7 +66,10 @@ class _QuestionsView extends StatelessWidget {
         read.setAnswerYes();
         final moreQuestion = read.incrementQuestionIndex();
         if (!moreQuestion) {
-          Navigator.of(context).pushReplacementNamed(ResultView.routeName);
+          Navigator.of(context).pushReplacementNamed(
+            ResultView.routeName,
+            arguments: read.questions,
+          );
           return;
         }
       },
@@ -78,7 +81,10 @@ class _QuestionsView extends StatelessWidget {
         read.setAnswerNo();
         final moreQuestion = read.incrementQuestionIndex();
         if (!moreQuestion) {
-          Navigator.of(context).pushReplacementNamed(ResultView.routeName);
+          Navigator.of(context).pushReplacementNamed(
+            ResultView.routeName,
+            arguments: read.questions,
+          );
           return;
         }
       },

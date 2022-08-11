@@ -15,6 +15,7 @@ class RouteGenerator {
       case ResultView.routeName:
         return MaterialPageRoute(
           builder: (_) => const ResultView(),
+          settings: settings,
         );
       default:
         throw const RouteException('Route not found');
