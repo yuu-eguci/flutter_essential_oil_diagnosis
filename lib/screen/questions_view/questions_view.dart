@@ -31,6 +31,64 @@ class _QuestionsView extends StatelessWidget {
   // NOTE: build は一度きり実行されるものではなく、何度も実行されるものであることを留意する。
   @override
   Widget build(BuildContext context) {
+    // ViewModel を監視します。
+    final watch = context.watch<QuestionsViewModel>();
+
+    // 質問文です。
+    final questionTextCard = Card(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 150,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(watch.questions[watch.currentQuestionIndex].text),
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.bottomRight,
+            height: 50,
+            child: Text('${watch.currentQuestionIndex + 1} / 50'),
+          ),
+        ],
+      ),
+    );
+
+    // 回答用のボタンです。
+    final yesButton = ElevatedButton(
+      child: const Text('Yes'),
+      onPressed: () {},
+    );
+    final noButton = ElevatedButton(
+      child: const Text('No'),
+      onPressed: () {},
+    );
+    final buttonRow = Row(
+      children: [
+        Expanded(
+          child: SizedBox(
+            height: 100,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: yesButton,
+            ),
+          ),
+        ),
+        Expanded(
+          child: SizedBox(
+            height: 100,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: noButton,
+            ),
+          ),
+        ),
+      ],
+    );
+
     return Scaffold(
       appBar: appBar,
       body: SafeArea(
@@ -39,6 +97,8 @@ class _QuestionsView extends StatelessWidget {
           child: Column(
             children: <Widget>[
               guideText,
+              questionTextCard,
+              buttonRow,
             ],
           ),
         ),
