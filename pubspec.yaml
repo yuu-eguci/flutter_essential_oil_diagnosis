@@ -41,6 +41,9 @@ dependencies:
   # スプラッシュ画面を実装するためのライブラリです。
   flutter_native_splash: ^2.2.7
 
+  # Provider です。
+  provider: ^6.0.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
