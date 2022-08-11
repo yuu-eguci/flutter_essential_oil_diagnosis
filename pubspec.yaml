@@ -38,6 +38,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # アイコンを変更するためのライブラリです。
+  flutter_launcher_icons: "^0.10.0"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -87,3 +89,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+# flutter_launcher_icons ライブラリのための設定です。
+flutter_icons:
+  ios: true
+  remove_alpha_ios: true
+  image_path: "lib/project_icon.png"
