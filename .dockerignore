@@ -1,0 +1,10 @@
+.dart_tool/
+.git/
+build/
+docs/
+android/
+ios/
+linux/
+macos/
+windows/
+**/.DS_Store

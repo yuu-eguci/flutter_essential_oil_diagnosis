@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: ^3.13.7
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -33,16 +33,13 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-
-  # アイコンを変更するためのライブラリです。
-  flutter_launcher_icons: "^0.10.0"
+  cupertino_icons: ^1.0.8
 
   # スプラッシュ画面を実装するためのライブラリです。
-  flutter_native_splash: ^2.2.7
+  flutter_native_splash: ^2.4.8
 
   # Provider です。
-  provider: ^6.0.3
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:
@@ -53,7 +50,10 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
+
+  # アイコンを変更するためのライブラリです。アイコン画像の生成にだけ使います。
+  flutter_launcher_icons: ^0.14.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
