@@ -2,26 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/screen/result_view/result_view.dart' show ResultView;
-import '/view_model/questions_view/questions_view_model.dart' show QuestionsViewModel;
+import '/view_model/questions_view/questions_view_model.dart' show Question, QuestionsViewModel;
 
 class QuestionsView extends StatelessWidget {
-  const QuestionsView({Key? key}) : super(key: key);
+  const QuestionsView({super.key, this.questions});
 
   // routes.dart 内や pushNamed 時に参照されます。
   static const routeName = '/';
 
+  /// 出題する質問です。指定がなければ、いつもの質問になります。
+  final List<Question>? questions;
+
   @override
   Widget build(BuildContext context) {
-    // ChangeNotifierProvider を使って、 ViewModel を child の Widget で利用可能にする。
+    // ChangeNotifierProvider を使って、 ViewModel を child の Widget で利用できるようにします。
     return ChangeNotifierProvider<QuestionsViewModel>(
-      create: (context) => QuestionsViewModel(),
+      create: (context) => QuestionsViewModel(questions: questions),
       child: _QuestionsView(),
     );
   }
 }
 
 class _QuestionsView extends StatelessWidget {
-  _QuestionsView({Key? key}) : super(key: key);
+  _QuestionsView();
 
   // タイトルを表示する AppBar です。
   final appBar = AppBar(title: const Text('みろりおいる'));
@@ -29,7 +32,7 @@ class _QuestionsView extends StatelessWidget {
   // ユーザへの指示を表示する Text です。
   final guideText = const Text('正直に回答していこう! 一度回答したら戻れないよ、適当に作ったからゴメンな!');
 
-  // NOTE: build は一度きり実行されるものではなく、何度も実行されるものであることを留意する。
+  // NOTE: build は一度きり実行されるものではなく、何度も実行される点に注意します。
   @override
   Widget build(BuildContext context) {
     // ViewModel を監視します。
@@ -52,7 +55,7 @@ class _QuestionsView extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             alignment: Alignment.bottomRight,
             height: 50,
-            child: Text('${watch.currentQuestionIndex + 1} / 50'),
+            child: Text('${watch.currentQuestionIndex + 1} / ${watch.questions.length}'),
           ),
         ],
       ),
@@ -90,7 +93,7 @@ class _QuestionsView extends StatelessWidget {
       },
     );
     final skipButton = ElevatedButton(
-      child: const Text('アプリの動きを見たいだけだから49問てきとうに答えたことにしてよ'),
+      child: Text('アプリの動きを見たいだけだから${watch.skippableQuestionCount}問てきとうに答えたことにしてよ'),
       onPressed: () {
         final read = context.read<QuestionsViewModel>();
         read.setRandomAnswers();
@@ -133,7 +136,7 @@ class _QuestionsView extends StatelessWidget {
       ],
     );
 
-    // 状態によっては、 widgets の有無をスイッチしたい。
+    // 状態によっては、 widgets の表示を切り替えます。
     final children = <Widget>[
       guideText,
       questionTextCard,

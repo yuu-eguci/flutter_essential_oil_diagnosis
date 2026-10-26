@@ -30,9 +30,9 @@ class Question {
 }
 
 class QuestionsViewModel extends ChangeNotifier {
-  QuestionsViewModel() {
-    // 50の質問を初期化します。
-    questions = [
+  QuestionsViewModel({List<Question>? questions}) {
+    // 質問を初期化します。指定がなければ、いつもの50問です。
+    this.questions = questions ?? [
       Question(text: '冬でもアイスクリームのような冷たいものが好き', wetCold: false, dryCold: false, wetHot: true, dryHot: true,),
       Question(text: '夏でも紅茶や珈琲はホットが好き', wetCold: true, dryCold: true, wetHot: false, dryHot: false,),
       Question(text: '汗がよく出る', wetCold: true, dryCold: false, wetHot: true, dryHot: false,),
@@ -104,7 +104,7 @@ class QuestionsViewModel extends ChangeNotifier {
 
   /// 次の質問へ進みます。次の質問があるなら true を返します。
   bool incrementQuestionIndex() {
-    // 次の質問など存在しない。
+    // 次の質問がない場合です。
     if (isLastQuestion()) {
       return false;
     }
@@ -114,9 +114,9 @@ class QuestionsViewModel extends ChangeNotifier {
     return true;
   }
 
-  /// 最後の質問まで適当に進む。
+  /// 最後の質問まで適当に進めます。
   void setRandomAnswers() {
-    // 48まで while して、 while block の最後で49にして終了。
+    // 最後の質問のひとつ手前まで答えて、最後の質問で止まります。
     while (currentQuestionIndex < questions.length - 1) {
       // てきとうに回答します。
       if (Random().nextBool()) {
@@ -128,6 +128,11 @@ class QuestionsViewModel extends ChangeNotifier {
     }
     // Rebuild.
     notifyListeners();
+  }
+
+  /// 最後の質問の手前まで、てきとうに回答できる問題数です。
+  int get skippableQuestionCount {
+    return questions.length - 1 - currentQuestionIndex;
   }
 
   bool isLastQuestion() {

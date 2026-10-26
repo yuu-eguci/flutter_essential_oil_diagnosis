@@ -6,35 +6,31 @@ import '/view_model/questions_view/questions_view_model.dart' show Question;
 import '/view_model/result_view/result_view_model.dart' show ResultViewModel;
 
 class ResultView extends StatelessWidget {
-  const ResultView({Key? key}) : super(key: key);
+  const ResultView({super.key, required this.questions});
 
   // routes.dart 内や pushNamed 時に参照されます。
   static const routeName = '/ResultView';
 
+  /// 前の画面で回答した質問です。 routes.dart で引数から受け取ります。
+  final List<Question> questions;
+
   @override
   Widget build(BuildContext context) {
-    // 前の画面から、引数を受け取ります。
-    final questions = ModalRoute.of(context)!.settings.arguments as List<Question>;
-
-    // List<Question> を集計します。
-    final viewModel = ResultViewModel();
-    viewModel.calculateResult(questions);
-
-    // ChangeNotifierProvider を使って、 ViewModel を child の Widget で利用可能にする。
+    // List<Question> を集計した ViewModel を、 ChangeNotifierProvider を使って child の Widget で利用できるようにします。
     return ChangeNotifierProvider<ResultViewModel>(
-      create: (context) => viewModel,
+      create: (context) => ResultViewModel()..calculateResult(questions),
       child: _ResultView(),
     );
   }
 }
 
 class _ResultView extends StatelessWidget {
-  _ResultView({Key? key}) : super(key: key);
+  _ResultView();
 
   // タイトルを表示する AppBar です。
   final appBar = AppBar(title: const Text('みろりおいる'));
 
-  // NOTE: build は一度きり実行されるものではなく、何度も実行されるものであることを留意する。
+  // NOTE: build は一度きり実行されるものではなく、何度も実行される点に注意します。
   @override
   Widget build(BuildContext context) {
     // ViewModel を監視します。
@@ -80,23 +76,31 @@ class _ResultView extends StatelessWidget {
       },
     );
 
+    // Yes の回答がひとつもなくて、タイプを判定できなかったときです。
+    const undeterminedText = Text('Yes と答えた質問がなかったので、タイプは判定できなかったよ。もう一回やってみてね。');
+
     return Scaffold(
       appBar: appBar,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
-            children: <Widget>[
-              yourTypeText,
-              wetColdRateText,
-              dryColdRateText,
-              wetHotRateText,
-              dryHotRateText,
-              yourCharacterCard,
-              recommendedDescription,
-              recommendedOilCard,
-              backToStartButton,
-            ],
+            children: watch.isDetermined
+                ? <Widget>[
+                    yourTypeText,
+                    wetColdRateText,
+                    dryColdRateText,
+                    wetHotRateText,
+                    dryHotRateText,
+                    yourCharacterCard,
+                    recommendedDescription,
+                    recommendedOilCard,
+                    backToStartButton,
+                  ]
+                : <Widget>[
+                    undeterminedText,
+                    backToStartButton,
+                  ],
           ),
         ),
       ),
